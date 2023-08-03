@@ -23,11 +23,11 @@ _________________________________
 - open the kali linux(or any linux distro.) terminal.
 - run the following commands.
 
-$ sudo su     //enter password to use ROOT
-$ git clone https://github.com/CYBERCODERoss/compile.git
-$ cd compile
-$ chmod +x compile.sh
-$ ./compile.sh -/your_program_name.cpp
+- $ sudo su     //enter password to use ROOT
+- $ git clone https://github.com/CYBERCODERoss/compile.git
+- $ cd compile
+- $ chmod +x compile.sh
+- $ ./compile.sh -/your_program_name.cpp
 
 That's all your code is being compiled and runned if there are errors then this will tell you the errors as well.
 
