@@ -1,0 +1,48 @@
+pipeline {
+    agent any
+
+    environment {
+        GIT_REPO_URL = 'https://github.com/CYBERCODERoss/compile'
+        BASH_SCRIPT_PATH = 'main/compiler.sh'
+        EMAIL_RECIPIENT = 'talhatfaheem.com'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    git branch: 'master', url: GIT_REPO_URL
+                }
+            }
+        }
+
+        stage('Run Bash Script') {
+            steps {
+                script {
+                    sh "bash ${BASH_SCRIPT_PATH}"
+                }
+            }
+        }
+
+        stage('Send Email') {
+            steps {
+                script {
+                    currentBuild.result = currentBuild.resultIsBetterOrEqualTo('SUCCESS') ? 'SUCCESS' : 'FAILURE'
+
+                    emailext subject: "Job ${currentBuild.result}: Pipeline ${currentBuild.displayName}",
+                             body: "The Jenkins job ${currentBuild.result}.",
+                             recipientProviders: [[$class: 'CulpritsRecipientProvider'], [$class: 'RequesterRecipientProvider']],
+                             to: EMAIL_RECIPIENT
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            script {
+                deleteDir()
+            }
+        }
+    }
+}
